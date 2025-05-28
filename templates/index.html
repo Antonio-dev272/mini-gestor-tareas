@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mini Gestor de Tareas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-md">
+    <h1 class="text-2xl font-bold mb-4">Gestor de Tareas</h1>
+
+    <form action="/agregar" method="POST" class="flex space-x-2 mb-4">
+      <input name="titulo" type="text" placeholder="Escribe una tarea..." required class="flex-1 p-2 border rounded" />
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Agregar</button>
+    </form>
+
+    <ul class="space-y-2">
+      {% for tarea in tareas %}
+        <li class="flex justify-between items-center p-2 bg-gray-200 rounded">
+          {{ tarea }}
+          <form action="/eliminar/{{ loop.index0 }}" method="POST">
+            <button class="bg-red-500 text-white px-2 py-1 rounded">Eliminar</button>
+          </form>
+        </li>
+      {% else %}
+        <li class="text-gray-500">No hay tareas aún.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>
+
