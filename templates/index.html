@@ -2,31 +2,51 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Mini Gestor de Tareas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de Tareas</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-6">
-  <div class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-md">
-    <h1 class="text-2xl font-bold mb-4">Gestor de Tareas</h1>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
 
-    <form action="/agregar" method="POST" class="flex space-x-2 mb-4">
-      <input name="titulo" type="text" placeholder="Escribe una tarea..." required class="flex-1 p-2 border rounded" />
-      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Agregar</button>
+  <div class="bg-gray-900 shadow-2xl rounded-2xl p-8 max-w-xl w-full space-y-6 transition-all duration-300">
+    <h1 class="text-4xl font-extrabold text-center text-white mb-4">📋 Gestor de Tareas</h1>
+
+    <form method="POST" class="flex shadow-sm">
+      <input 
+        name="task" 
+        type="text" 
+        placeholder="Escribe una tarea..." 
+        class="flex-grow p-3 rounded-l-lg border border-gray-700 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400" 
+        required
+      >
+      <button 
+        type="submit" 
+        class="bg-blue-500 text-white px-5 rounded-r-lg hover:bg-blue-600 transition-all duration-200 font-semibold"
+      >
+        Agregar
+      </button>
     </form>
 
-    <ul class="space-y-2">
-      {% for tarea in tareas %}
-        <li class="flex justify-between items-center p-2 bg-gray-200 rounded">
-          {{ tarea }}
-          <form action="/eliminar/{{ loop.index0 }}" method="POST">
-            <button class="bg-red-500 text-white px-2 py-1 rounded">Eliminar</button>
-          </form>
-        </li>
+    <ul class="divide-y divide-gray-700">
+      {% if tasks %}
+        {% for task in tasks %}
+          <li class="flex justify-between items-center py-3 group">
+            <span class="text-gray-300">{{ task }}</span>
+            <a 
+              href="{{ url_for('delete_task', task_id=loop.index0) }}" 
+              class="text-red-400 hover:text-red-500 font-semibold transition-all duration-200"
+            >
+              Eliminar
+            </a>
+          </li>
+        {% endfor %}
       {% else %}
-        <li class="text-gray-500">No hay tareas aún.</li>
-      {% endfor %}
+        <li class="text-gray-500 italic text-center py-2">No hay tareas aún.</li>
+      {% endif %}
     </ul>
   </div>
+
 </body>
 </html>
+
 
