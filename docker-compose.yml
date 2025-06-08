@@ -1,13 +1,19 @@
-version: '3.8'
 services:
   backend:
-    build: .
+    build: ./backend  # Indica dónde encontrar el Dockerfile para el backend
     ports:
       - "5000:5000"
     volumes:
-      - .:/app
-      - /app/venv
+      - ./backend:/app  # Monta el código del backend en el contenedor
     environment:
       FLASK_APP: app.py
       FLASK_ENV: development
     command: flask run --host=0.0.0.0 --port=5000
+
+  frontend:
+    build: ./frontend  # Indica dónde encontrar el Dockerfile para el frontend
+    ports:
+      - "80:80"       # Mapea el puerto 80 del contenedor (Nginx) al puerto 80 de tu Codespace
+    volumes:
+      - ./frontend/index.html:/usr/share/nginx/html/index.html # Monta index.html
+      - ./frontend/static:/usr/share/nginx/html/static       # Monta la carpeta static

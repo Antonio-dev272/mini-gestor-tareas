@@ -1,0 +1,4 @@
+Flask
+pytest
+Flask-Testing
+Flask-Cors  # ¡Añade esto para la comunicación entre servicios!
