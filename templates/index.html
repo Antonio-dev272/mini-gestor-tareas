@@ -3,17 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestor de Tareas</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+  <title>TaskFlow - Gestor de Tareas</title>
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  
+  </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">
 
   <div class="bg-gray-900 shadow-2xl rounded-2xl p-8 max-w-xl w-full space-y-6 transition-all duration-300">
-    <h1 class="text-4xl font-extrabold text-center text-white mb-4">📋 Gestor de Tareas</h1>
+    <h1 class="text-4xl font-extrabold text-center text-white mb-4">📋 TaskFlow - Gestor de Tareas</h1>
 
-    <form method="POST" class="flex shadow-sm">
+    <form id="task-form" class="flex shadow-sm">
       <input 
-        name="task" 
+        id="task-input"  name="task" 
         type="text" 
         placeholder="Escribe una tarea..." 
         class="flex-grow p-3 rounded-l-lg border border-gray-700 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400" 
@@ -27,24 +29,12 @@
       </button>
     </form>
 
-    <ul class="divide-y divide-gray-700">
-      {% if tasks %}
-        {% for task in tasks %}
-          <li class="flex justify-between items-center py-3 group">
-            <span class="text-gray-300">{{ task }}</span>
-            <a 
-              href="{{ url_for('delete_task', task_id=loop.index0) }}" 
-              class="text-red-400 hover:text-red-500 font-semibold transition-all duration-200"
-            >
-              Eliminar
-            </a>
-          </li>
-        {% endfor %}
-      {% else %}
-        <li class="text-gray-500 italic text-center py-2">No hay tareas aún.</li>
-      {% endif %}
-    </ul>
+    <div id="task-list" class="divide-y divide-gray-700">
+      <li class="text-gray-500 italic text-center py-2" id="no-tasks-message">Cargando tareas...</li>
+    </div>
   </div>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 </html>
