@@ -1,13 +1,13 @@
-version: '3.8'
+version: "3.9"
 
 services:
   backend:
     build: ./backend
     ports:
       - "5000:5000"
-    environment:
-      FLASK_APP: app.py
-      FLASK_RUN_HOST: 0.0.0.0
+    volumes:
+      - ./backend:/app
+    restart: always
 
   frontend:
     build: ./frontend

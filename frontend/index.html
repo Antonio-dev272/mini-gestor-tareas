@@ -1,42 +1,17 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskFlow - Gestor de Tareas</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+  <meta charset="UTF-8" />
+  <title>Mini Trello</title>
+  <link href="/static/css/styles.css" rel="stylesheet" />
 </head>
-<body>
-    <header>
-        <h1>TaskFlow - Gestor de Tareas</h1>
-    </header>
-    <main>
-        <section class="task-input">
-            <h2>Crear Nueva Tarea</h2>
-            <input type="text" id="task-title" placeholder="Título de la tarea">
-            <textarea id="task-description" placeholder="Descripción de la tarea (opcional)"></textarea>
-            <button id="add-task-btn">Añadir Tarea</button>
-        </section>
-
-        <section class="task-boards">
-            <div class="board">
-                <h3>Pendientes</h3>
-                <ul id="pending-tasks" class="task-list">
-                    </ul>
-            </div>
-            <div class="board">
-                <h3>En Progreso</h3>
-                <ul id="in-progress-tasks" class="task-list">
-                    </ul>
-            </div>
-            <div class="board">
-                <h3>Completadas</h3>
-                <ul id="completed-tasks" class="task-list">
-                    </ul>
-            </div>
-        </section>
-    </main>
-
-    <script src="/static/js/script.js"></script>
+<body class="bg-gray-100 text-gray-800">
+  <div class="max-w-4xl mx-auto py-10">
+    <h1 class="text-3xl font-bold mb-6">Mini Trello</h1>
+    <div id="boards" class="space-y-4"></div>
+    <input id="board-name" class="border p-2" placeholder="Nuevo tablero" />
+    <button onclick="createBoard()" class="bg-blue-500 text-white px-4 py-2">Crear</button>
+  </div>
+  <script src="/static/js/script.js"></script>
 </body>
 </html>

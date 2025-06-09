@@ -1,4 +1,3 @@
-Flask
-pytest
-Flask-Testing
-Flask-Cors  # ¡Añade esto para la comunicación entre servicios!
+Flask==2.3.2
+Flask-CORS==3.0.10
+Flask-SQLAlchemy==3.0.5
