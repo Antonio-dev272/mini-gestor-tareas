@@ -15,10 +15,10 @@
             sans: ['Inter', 'sans-serif'],
           },
           colors: {
-            trello: '#1e293b',  // Azul oscuro para navbar
-            card: '#1f2937',    // Grises oscuros para tarjetas
-            input: '#374151',   // Inputs oscuros
-            border: '#4b5563',  // Bordes sutiles
+            trello: '#1e293b',
+            card: '#1f2937',
+            input: '#374151',
+            border: '#4b5563',
           }
         }
       }
@@ -29,7 +29,7 @@
 </head>
 <body class="bg-gray-900 text-white font-sans">
 
-  <!-- Navbar estilo Trello -->
+  <!-- Navbar -->
   <header class="bg-trello text-white px-6 py-3 shadow-md">
     <div class="flex items-center justify-between">
       <div class="flex items-center space-x-4">
@@ -48,10 +48,9 @@
   <main class="p-6 overflow-x-auto">
     <div class="flex space-x-4 min-w-max">
 
-      <!-- Lista -->
+      <!-- Lista: Por hacer -->
       <div class="bg-gray-800 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-border">
         <h2 class="font-semibold text-lg mb-3">📋 Por hacer</h2>
-
         <div class="space-y-2">
           <div class="bg-card p-3 rounded shadow hover:bg-gray-700 cursor-pointer transition">
             <div class="flex justify-between items-center">
@@ -66,7 +65,6 @@
             </div>
           </div>
         </div>
-
         <div class="mt-4">
           <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 bg-input border border-border text-white rounded mb-2 placeholder-gray-400">
           <button class="w-full bg-blue-600 text-white py-1 rounded hover:bg-blue-700 text-sm flex items-center justify-center">
@@ -75,10 +73,9 @@
         </div>
       </div>
 
-      <!-- Lista adicional (puedes duplicar esta para más columnas) -->
+      <!-- Lista: En progreso -->
       <div class="bg-gray-800 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-border">
         <h2 class="font-semibold text-lg mb-3">🚧 En progreso</h2>
-
         <div class="space-y-2">
           <div class="bg-card p-3 rounded shadow hover:bg-gray-700 cursor-pointer transition">
             <div class="flex justify-between items-center">
@@ -93,7 +90,6 @@
             </div>
           </div>
         </div>
-
         <div class="mt-4">
           <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 bg-input border border-border text-white rounded mb-2 placeholder-gray-400">
           <button class="w-full bg-blue-600 text-white py-1 rounded hover:bg-blue-700 text-sm flex items-center justify-center">
@@ -102,9 +98,36 @@
         </div>
       </div>
 
-      <!-- Lista: Nueva columna -->
+      <!-- Lista: Completado -->
+      <div class="bg-gray-800 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-border">
+        <h2 class="font-semibold text-lg mb-3">✅ Completado</h2>
+        <div class="space-y-2">
+          <div class="bg-card p-3 rounded shadow hover:bg-gray-700 cursor-pointer transition">
+            <div class="flex justify-between items-center">
+              <span>Establecer objetivos</span>
+              <img src="https://i.pravatar.cc/30?img=11" class="rounded-full w-6 h-6 ml-2" alt="user">
+            </div>
+          </div>
+        </div>
+        <div class="mt-4">
+          <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 bg-input border border-border text-white rounded mb-2 placeholder-gray-400">
+          <button class="w-full bg-blue-600 text-white py-1 rounded hover:bg-blue-700 text-sm flex items-center justify-center">
+            <i class="ti ti-plus mr-1"></i> Agregar
+          </button>
+        </div>
+      </div>
+
+      <!-- Nueva lista -->
       <div class="bg-transparent rounded-lg w-80 flex-shrink-0 p-4 shadow-inner border-2 border-dashed border-gray-600 flex flex-col justify-center items-center text-gray-400 hover:border-blue-500 hover:text-blue-400 transition-colors">
         <span class="mb-2 font-semibold flex items-center"><i class="ti ti-plus mr-1"></i> Agregar otra lista</span>
-        <input type="text" placeholder="Tít
+        <input type="text" placeholder="Título de la lista..." class="w-full p-2 bg-input border border-border text-white rounded mb-2 placeholder-gray-500">
+        <button class="w-full bg-green-600 text-white py-1 rounded hover:bg-green-700 text-sm">Crear</button>
+      </div>
+
+    </div>
+  </main>
+
+</body>
+</html>
 
 
