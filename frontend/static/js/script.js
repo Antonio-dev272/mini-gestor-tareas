@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const backendUrl = 'http://localhost:5000/api/tasks'; // URL de tu backend Flask
+    const backendUrl = '/api/tasks'; // CORREGIDO: Ahora es una ruta relativa para que Nginx la maneje
 
     const taskTitleInput = document.getElementById('task-title');
     const taskDescriptionInput = document.getElementById('task-description');
