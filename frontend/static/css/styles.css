@@ -1,31 +1,123 @@
-/* frontend/static/css/styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
+/* Fuente */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    margin: 0;
-    padding: 20px;
+  font-family: 'Inter', sans-serif;
+  background-color: #111827; /* bg-gray-900 */
+  color: white;
 }
 
-header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 0;
-    text-align: center;
-    margin-bottom: 20px;
+/* Colores personalizados */
+.bg-trello {
+  background-color: #1e293b;
 }
 
-h1, h2, h3 {
-    color: #333;
+.bg-card {
+  background-color: #1f2937;
 }
 
-.task-input, .task-boards {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
+.bg-input {
+  background-color: #374151;
 }
 
-/* Agrega más estilos según sea necesario */
+.border-border {
+  border-color: #4b5563;
+}
+
+/* Sombra para tarjetas */
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.shadow-inner {
+  box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.06);
+}
+
+/* Hover cards */
+.card-hover:hover {
+  background-color: #374151;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Botones */
+.btn-blue {
+  background-color: #2563eb;
+  color: white;
+  padding: 0.25rem 0;
+  border-radius: 0.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+}
+
+.btn-blue:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-green {
+  background-color: #16a34a;
+  color: white;
+  padding: 0.25rem 0;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.btn-green:hover {
+  background-color: #15803d;
+}
+
+/* Inputs */
+.input-text {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #374151;
+  border: 1px solid #4b5563;
+  color: white;
+  border-radius: 0.375rem;
+}
+
+.input-text::placeholder {
+  color: #9ca3af;
+}
+
+/* Responsive scroll horizontal */
+.container-listas {
+  display: flex;
+  gap: 1rem;
+  min-width: max-content;
+  overflow-x: auto;
+  padding: 1.5rem;
+}
+
+/* Lista styling */
+.lista {
+  background-color: #1f2937;
+  border-radius: 0.5rem;
+  width: 20rem;
+  padding: 1rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  border: 1px solid #4b5563;
+  flex-shrink: 0;
+}
+
+/* Nueva lista */
+.lista-nueva {
+  background-color: transparent;
+  border: 2px dashed #4b5563;
+  border-radius: 0.5rem;
+  width: 20rem;
+  padding: 1rem;
+  color: #9ca3af;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.lista-nueva:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}

@@ -2,30 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mini Trello Oscuro</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
-          colors: {
-            trello: '#1e293b',
-            card: '#1f2937',
-            input: '#374151',
-            border: '#4b5563',
-          }
-        }
-      }
-    }
-  </script>
-  <link href="https://unpkg.com/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://unpkg.com/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet" />
 </head>
-<body class="bg-gray-900 text-white font-sans">
+<body>
 
   <!-- Navbar -->
   <header class="bg-trello text-white px-6 py-3 shadow-md">
@@ -42,65 +25,64 @@
   </header>
 
   <!-- Tablero -->
-  <main class="p-6 overflow-x-auto">
-    <div class="flex space-x-4 min-w-max">
+  <main class="container-listas">
 
-      <!-- Lista: Por hacer -->
-      <div class="bg-gray-800 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-border">
-        <h2 class="font-semibold text-lg mb-3">📋 Por hacer</h2>
-        <div class="space-y-2">
-          <div class="bg-card p-3 rounded shadow hover:bg-gray-700 cursor-pointer transition">Escribir especificaciones</div>
-          <div class="bg-card p-3 rounded shadow hover:bg-gray-700 cursor-pointer transition">Diseñar interfaz</div>
-        </div>
-        <div class="mt-4">
-          <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 bg-input border border-border text-white rounded mb-2 placeholder-gray-400">
-          <button class="w-full bg-blue-600 text-white py-1 rounded hover:bg-blue-700 text-sm flex items-center justify-center">
-            <i class="ti ti-plus mr-1"></i> Agregar
-          </button>
-        </div>
+    <!-- Lista: Por hacer -->
+    <section class="lista">
+      <h2 class="font-semibold text-lg mb-3">📋 Por hacer</h2>
+      <div class="space-y-2">
+        <div class="bg-card p-3 rounded shadow-md card-hover">Escribir especificaciones</div>
+        <div class="bg-card p-3 rounded shadow-md card-hover">Diseñar interfaz</div>
       </div>
-
-      <!-- Lista: En progreso -->
-      <div class="bg-gray-800 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-border">
-        <h2 class="font-semibold text-lg mb-3">🚧 En progreso</h2>
-        <div class="space-y-2">
-          <div class="bg-card p-3 rounded shadow hover:bg-gray-700 cursor-pointer transition">Crear prototipo</div>
-          <div class="bg-card p-3 rounded shadow hover:bg-gray-700 cursor-pointer transition">Reunión con el equipo</div>
-        </div>
-        <div class="mt-4">
-          <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 bg-input border border-border text-white rounded mb-2 placeholder-gray-400">
-          <button class="w-full bg-blue-600 text-white py-1 rounded hover:bg-blue-700 text-sm flex items-center justify-center">
-            <i class="ti ti-plus mr-1"></i> Agregar
-          </button>
-        </div>
+      <div class="mt-4">
+        <input type="text" placeholder="Nueva tarjeta..." class="input-text mb-2" />
+        <button class="btn-blue flex items-center justify-center">
+          <i class="ti ti-plus mr-1"></i> Agregar
+        </button>
       </div>
+    </section>
 
-      <!-- Lista: Completado -->
-      <div class="bg-gray-800 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-border">
-        <h2 class="font-semibold text-lg mb-3">✅ Completado</h2>
-        <div class="space-y-2">
-          <div class="bg-card p-3 rounded shadow hover:bg-gray-700 cursor-pointer transition">Establecer objetivos</div>
-        </div>
-        <div class="mt-4">
-          <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 bg-input border border-border text-white rounded mb-2 placeholder-gray-400">
-          <button class="w-full bg-blue-600 text-white py-1 rounded hover:bg-blue-700 text-sm flex items-center justify-center">
-            <i class="ti ti-plus mr-1"></i> Agregar
-          </button>
-        </div>
+    <!-- Lista: En progreso -->
+    <section class="lista">
+      <h2 class="font-semibold text-lg mb-3">🚧 En progreso</h2>
+      <div class="space-y-2">
+        <div class="bg-card p-3 rounded shadow-md card-hover">Crear prototipo</div>
+        <div class="bg-card p-3 rounded shadow-md card-hover">Reunión con el equipo</div>
       </div>
-
-      <!-- Nueva lista -->
-      <div class="bg-transparent rounded-lg w-80 flex-shrink-0 p-4 shadow-inner border-2 border-dashed border-gray-600 flex flex-col justify-center items-center text-gray-400 hover:border-blue-500 hover:text-blue-400 transition-colors">
-        <span class="mb-2 font-semibold flex items-center"><i class="ti ti-plus mr-1"></i> Agregar otra lista</span>
-        <input type="text" placeholder="Título de la lista..." class="w-full p-2 bg-input border border-border text-white rounded mb-2 placeholder-gray-500">
-        <button class="w-full bg-green-600 text-white py-1 rounded hover:bg-green-700 text-sm">Crear</button>
+      <div class="mt-4">
+        <input type="text" placeholder="Nueva tarjeta..." class="input-text mb-2" />
+        <button class="btn-blue flex items-center justify-center">
+          <i class="ti ti-plus mr-1"></i> Agregar
+        </button>
       </div>
+    </section>
 
-    </div>
+    <!-- Lista: Completado -->
+    <section class="lista">
+      <h2 class="font-semibold text-lg mb-3">✅ Completado</h2>
+      <div class="space-y-2">
+        <div class="bg-card p-3 rounded shadow-md card-hover">Establecer objetivos</div>
+      </div>
+      <div class="mt-4">
+        <input type="text" placeholder="Nueva tarjeta..." class="input-text mb-2" />
+        <button class="btn-blue flex items-center justify-center">
+          <i class="ti ti-plus mr-1"></i> Agregar
+        </button>
+      </div>
+    </section>
+
+    <!-- Nueva lista -->
+    <section class="lista-nueva">
+      <span class="mb-2 font-semibold flex items-center"><i class="ti ti-plus mr-1"></i> Agregar otra lista</span>
+      <input type="text" placeholder="Título de la lista..." class="input-text mb-2" />
+      <button class="btn-green">Crear</button>
+    </section>
+
   </main>
 
 </body>
 </html>
+
 
 
 
