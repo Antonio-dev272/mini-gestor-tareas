@@ -1,55 +1,143 @@
-const API_URL = "http://localhost:5000"; // Cambia si usas docker networks
+const API_URL = "http://localhost:5000";
 
-async function loadBoards() {
+async function fetchBoards() {
   const res = await fetch(`${API_URL}/boards`);
   const boards = await res.json();
-  const container = document.getElementById("boards");
-  container.innerHTML = "";
-  for (const board of boards) {
-    const boardDiv = document.createElement("div");
-    boardDiv.classList.add("bg-white", "p-4", "rounded", "shadow");
-    boardDiv.innerHTML = `<h2 class="text-xl font-semibold mb-2">${board.name}</h2>`;
-    container.appendChild(boardDiv);
-    loadLists(board.id, boardDiv);
-  }
-}
+  const boardsContainer = document.getElementById("boards");
+  boardsContainer.innerHTML = "";
 
-async function loadLists(boardId, parentDiv) {
-  const res = await fetch(`${API_URL}/boards/${boardId}/lists`);
-  const lists = await res.json();
-  const listContainer = document.createElement("div");
-  listContainer.classList.add("grid", "grid-cols-3", "gap-4");
-  for (const list of lists) {
-    const listDiv = document.createElement("div");
-    listDiv.classList.add("bg-gray-100", "p-2", "rounded");
-    listDiv.innerHTML = `<h3 class="font-bold">${list.name}</h3><ul id="tasks-${list.id}" class="pl-4"></ul>`;
-    listContainer.appendChild(listDiv);
-    loadTasks(list.id);
-  }
-  parentDiv.appendChild(listContainer);
-}
+  boards.forEach((board) => {
+    const boardCard = document.createElement("div");
+    boardCard.className = "bg-white rounded-lg shadow-md p-4";
 
-async function loadTasks(listId) {
-  const res = await fetch(`${API_URL}/lists/${listId}/tasks`);
-  const tasks = await res.json();
-  const ul = document.getElementById(`tasks-${listId}`);
-  for (const task of tasks) {
-    const li = document.createElement("li");
-    li.textContent = task.title;
-    ul.appendChild(li);
-  }
+    const title = document.createElement("h2");
+    title.textContent = board.name;
+    title.className = "text-xl font-semibold mb-2";
+
+    boardCard.appendChild(title);
+
+    const listsContainer = document.createElement("div");
+    listsContainer.className = "space-y-2";
+    boardCard.appendChild(listsContainer);
+
+    fetchLists(board.id, listsContainer);
+
+    // Add new list input and button
+    const newListInput = document.createElement("input");
+    newListInput.placeholder = "Nueva lista";
+    newListInput.className =
+      "border border-gray-300 rounded-md p-1 w-full mb-2 focus:outline-none focus:ring-2 focus:ring-blue-400";
+
+    const newListButton = document.createElement("button");
+    newListButton.textContent = "Agregar lista";
+    newListButton.className =
+      "bg-green-500 hover:bg-green-600 text-white rounded-md px-2 py-1 text-sm";
+    newListButton.onclick = () => {
+      createList(board.id, newListInput.value, listsContainer, newListInput);
+    };
+
+    boardCard.appendChild(newListInput);
+    boardCard.appendChild(newListButton);
+
+    boardsContainer.appendChild(boardCard);
+  });
 }
 
 async function createBoard() {
-  const name = document.getElementById("board-name").value;
-  if (!name) return;
+  const nameInput = document.getElementById("board-name");
+  const name = nameInput.value.trim();
+  if (!name) return alert("Ingresa un nombre para el tablero");
+
   await fetch(`${API_URL}/boards`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name })
+    body: JSON.stringify({ name }),
   });
-  document.getElementById("board-name").value = "";
-  loadBoards();
+
+  nameInput.value = "";
+  fetchBoards();
 }
 
-loadBoards();
+async function fetchLists(boardId, container) {
+  const res = await fetch(`${API_URL}/boards/${boardId}/lists`);
+  const lists = await res.json();
+  container.innerHTML = "";
+
+  lists.forEach((list) => {
+    const listDiv = document.createElement("div");
+    listDiv.className = "bg-gray-100 rounded-md p-2";
+
+    const listTitle = document.createElement("h3");
+    listTitle.textContent = list.name;
+    listTitle.className = "font-semibold mb-1";
+
+    listDiv.appendChild(listTitle);
+
+    const tasksContainer = document.createElement("div");
+    tasksContainer.className = "space-y-1 mb-2";
+    listDiv.appendChild(tasksContainer);
+
+    fetchTasks(list.id, tasksContainer);
+
+    // Add new task input and button
+    const newTaskInput = document.createElement("input");
+    newTaskInput.placeholder = "Nueva tarea";
+    newTaskInput.className =
+      "border border-gray-300 rounded-md p-1 w-full mb-1 focus:outline-none focus:ring-2 focus:ring-green-400";
+
+    const newTaskButton = document.createElement("button");
+    newTaskButton.textContent = "Agregar tarea";
+    newTaskButton.className =
+      "bg-blue-500 hover:bg-blue-600 text-white rounded-md px-2 py-1 text-sm";
+    newTaskButton.onclick = () => {
+      createTask(list.id, newTaskInput.value, tasksContainer, newTaskInput);
+    };
+
+    listDiv.appendChild(newTaskInput);
+    listDiv.appendChild(newTaskButton);
+
+    container.appendChild(listDiv);
+  });
+}
+
+async function createList(boardId, listName, container, inputElement) {
+  if (!listName.trim()) return alert("Ingresa un nombre para la lista");
+
+  await fetch(`${API_URL}/boards/${boardId}/lists`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: listName }),
+  });
+
+  inputElement.value = "";
+  fetchLists(boardId, container);
+}
+
+async function fetchTasks(listId, container) {
+  const res = await fetch(`${API_URL}/lists/${listId}/tasks`);
+  const tasks = await res.json();
+  container.innerHTML = "";
+
+  tasks.forEach((task) => {
+    const taskDiv = document.createElement("div");
+    taskDiv.className =
+      "bg-white rounded-md p-1 text-sm border border-gray-300 shadow-sm";
+    taskDiv.textContent = task.title;
+    container.appendChild(taskDiv);
+  });
+}
+
+async function createTask(listId, title, container, inputElement) {
+  if (!title.trim()) return alert("Ingresa un título para la tarea");
+
+  await fetch(`${API_URL}/lists/${listId}/tasks`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title }),
+  });
+
+  inputElement.value = "";
+  fetchTasks(listId, container);
+}
+
+window.onload = fetchBoards;
