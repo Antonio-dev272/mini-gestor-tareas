@@ -1,48 +1,58 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Mi Trello</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mini Trello</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 font-sans">
-    <div class="p-4">
-        <h1 class="text-3xl font-bold mb-6">Mi Tablero</h1>
-        <div class="flex space-x-4 overflow-x-auto pb-4">
-            <!-- Itera sobre las listas -->
-            {% for lista in listas %}
-            <div class="bg-gray-200 rounded-lg w-80 flex-shrink-0 p-4 shadow-md">
-                <div class="flex justify-between items-center mb-3">
-                    <h2 class="font-semibold text-lg">{{ lista.nombre }}</h2>
-                    <!-- Botón para eliminar lista (opcional) -->
-                </div>
+<body class="bg-gray-100 min-h-screen p-6 font-sans">
 
-                <div class="space-y-2">
-                    <!-- Itera sobre las tarjetas de la lista -->
-                    {% for tarjeta in lista.tarjetas %}
-                    <div class="bg-white p-3 rounded shadow hover:bg-gray-50 cursor-pointer">
-                        {{ tarjeta.titulo }}
-                    </div>
-                    {% endfor %}
-                </div>
+  <h1 class="text-3xl font-bold mb-6">Mi Tablero</h1>
 
-                <!-- Formulario para nueva tarjeta -->
-                <form method="POST" action="{{ url_for('nueva_tarjeta', lista_id=lista.id) }}" class="mt-4">
-                    <input type="text" name="titulo" placeholder="Nueva tarjeta..." class="w-full p-2 border rounded mb-2">
-                    <button type="submit" class="w-full bg-blue-500 text-white py-1 rounded hover:bg-blue-600">Agregar</button>
-                </form>
-            </div>
-            {% endfor %}
+  <div class="flex space-x-4 overflow-x-auto pb-4">
+    <!-- Lista 1 -->
+    <div class="bg-gray-200 rounded-lg w-80 flex-shrink-0 p-4 shadow-md">
+      <div class="flex justify-between items-center mb-3">
+        <h2 class="font-semibold text-lg">Por hacer</h2>
+      </div>
 
-            <!-- Columna para agregar nueva lista -->
-            <div class="w-80 flex-shrink-0 bg-white p-4 rounded shadow-md">
-                <form method="POST" action="{{ url_for('nueva_lista') }}">
-                    <input type="text" name="nombre" placeholder="Nueva lista..." class="w-full p-2 border rounded mb-2">
-                    <button type="submit" class="w-full bg-green-500 text-white py-1 rounded hover:bg-green-600">Crear lista</button>
-                </form>
-            </div>
-        </div>
+      <div class="space-y-2">
+        <div class="bg-white p-3 rounded shadow hover:bg-gray-50 cursor-pointer">Tarea 1</div>
+        <div class="bg-white p-3 rounded shadow hover:bg-gray-50 cursor-pointer">Tarea 2</div>
+      </div>
+
+      <!-- Formulario mock para nueva tarjeta -->
+      <div class="mt-4">
+        <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 border rounded mb-2">
+        <button class="w-full bg-blue-500 text-white py-1 rounded hover:bg-blue-600">Agregar</button>
+      </div>
     </div>
+
+    <!-- Lista 2 -->
+    <div class="bg-gray-200 rounded-lg w-80 flex-shrink-0 p-4 shadow-md">
+      <div class="flex justify-between items-center mb-3">
+        <h2 class="font-semibold text-lg">En progreso</h2>
+      </div>
+
+      <div class="space-y-2">
+        <div class="bg-white p-3 rounded shadow hover:bg-gray-50 cursor-pointer">Tarea 3</div>
+        <div class="bg-white p-3 rounded shadow hover:bg-gray-50 cursor-pointer">Tarea 4</div>
+      </div>
+
+      <div class="mt-4">
+        <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 border rounded mb-2">
+        <button class="w-full bg-blue-500 text-white py-1 rounded hover:bg-blue-600">Agregar</button>
+      </div>
+    </div>
+
+    <!-- Columna para agregar nueva lista -->
+    <div class="w-80 flex-shrink-0 bg-white p-4 rounded shadow-md">
+      <input type="text" placeholder="Nueva lista..." class="w-full p-2 border rounded mb-2">
+      <button class="w-full bg-green-500 text-white py-1 rounded hover:bg-green-600">Crear lista</button>
+    </div>
+  </div>
+
 </body>
 </html>
 
