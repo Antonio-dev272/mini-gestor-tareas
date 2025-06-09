@@ -10,24 +10,22 @@
 </head>
 <body>
 
-  <!-- Navbar -->
   <header class="bg-trello text-white px-6 py-3 shadow-md">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-4">
-        <h1 class="text-xl font-bold">Mini Trello</h1>
-        <nav class="flex space-x-3 text-sm text-gray-300">
-          <a href="#" class="hover:underline">Tablero 1</a>
-          <a href="#" class="hover:underline">Tablero 2</a>
-          <a href="#" class="hover:underline flex items-center"><i class="ti ti-plus mr-1"></i> Crear</a>
-        </nav>
-      </div>
+    <div class="flex items-center justify-between max-w-7xl mx-auto">
+      <h1 class="text-xl font-bold">Mini Trello</h1>
+      <nav class="flex space-x-4 text-sm text-gray-300">
+        <a href="#" class="hover:underline">Tablero 1</a>
+        <a href="#" class="hover:underline">Tablero 2</a>
+        <a href="#" class="hover:underline flex items-center">
+          <i class="ti ti-plus mr-1"></i> Crear
+        </a>
+      </nav>
     </div>
   </header>
 
-  <!-- Tablero -->
-  <main class="container-listas">
+  <main class="container-listas max-w-7xl mx-auto">
 
-    <!-- Lista: Por hacer -->
+    <!-- Lista Por hacer -->
     <section class="lista">
       <h2 class="font-semibold text-lg mb-3">📋 Por hacer</h2>
       <div class="space-y-2">
@@ -42,7 +40,7 @@
       </div>
     </section>
 
-    <!-- Lista: En progreso -->
+    <!-- Lista En progreso -->
     <section class="lista">
       <h2 class="font-semibold text-lg mb-3">🚧 En progreso</h2>
       <div class="space-y-2">
@@ -57,7 +55,7 @@
       </div>
     </section>
 
-    <!-- Lista: Completado -->
+    <!-- Lista Completado -->
     <section class="lista">
       <h2 class="font-semibold text-lg mb-3">✅ Completado</h2>
       <div class="space-y-2">
@@ -73,7 +71,9 @@
 
     <!-- Nueva lista -->
     <section class="lista-nueva">
-      <span class="mb-2 font-semibold flex items-center"><i class="ti ti-plus mr-1"></i> Agregar otra lista</span>
+      <span class="mb-2 font-semibold flex items-center">
+        <i class="ti ti-plus mr-1"></i> Agregar otra lista
+      </span>
       <input type="text" placeholder="Título de la lista..." class="input-text mb-2" />
       <button class="btn-green">Crear</button>
     </section>
@@ -82,6 +82,7 @@
 
 </body>
 </html>
+
 
 
 
