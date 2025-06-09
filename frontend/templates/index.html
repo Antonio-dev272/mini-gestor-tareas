@@ -1,65 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mini Trello</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body class="bg-gray-100 min-h-screen p-6">
-  <!-- Título -->
-  <header class="mb-6">
-    <h1 class="text-3xl font-bold mb-4">Mini Trello</h1>
-    <div class="flex gap-4 mb-4">
-      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Tablero 1</button>
-      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Tablero 2</button>
-      <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Crear</button>
-    </div>
-  </header>
+  <h1 class="title">Mini Trello</h1>
 
-  <!-- Contenedor de listas -->
-  <div class="flex space-x-4 overflow-x-auto">
-    <!-- Lista: Por hacer -->
-    <div class="bg-white rounded shadow w-72 flex-shrink-0 p-4">
-      <h2 class="text-lg font-bold mb-2">📋 Por hacer</h2>
-      <ul class="space-y-2 mb-4">
-        <li class="bg-gray-200 p-2 rounded">Escribir especificaciones</li>
-        <li class="bg-gray-200 p-2 rounded">Diseñar interfaz</li>
-      </ul>
-      <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 border rounded mb-2">
-      <button class="bg-blue-500 text-white px-4 py-1 rounded w-full hover:bg-blue-600">Agregar</button>
+  <div id="board-container" class="board-container">
+    <!-- Tablero: Por hacer -->
+    <div class="board">
+      <h2 class="board-title">Por hacer</h2>
+      <div class="card-list">
+        <div class="card">Tarea 1</div>
+        <div class="card">Tarea 2</div>
+      </div>
+      <button class="add-card">+ Agregar tarjeta</button>
     </div>
 
-    <!-- Lista: En progreso -->
-    <div class="bg-white rounded shadow w-72 flex-shrink-0 p-4">
-      <h2 class="text-lg font-bold mb-2">🚧 En progreso</h2>
-      <ul class="space-y-2 mb-4">
-        <li class="bg-yellow-200 p-2 rounded">Crear prototipo</li>
-        <li class="bg-yellow-200 p-2 rounded">Reunión con el equipo</li>
-      </ul>
-      <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 border rounded mb-2">
-      <button class="bg-yellow-500 text-white px-4 py-1 rounded w-full hover:bg-yellow-600">Agregar</button>
+    <!-- Tablero: En progreso -->
+    <div class="board">
+      <h2 class="board-title">En progreso</h2>
+      <div class="card-list">
+        <div class="card card-yellow">Tarea A</div>
+        <div class="card card-yellow">Tarea B</div>
+      </div>
+      <button class="add-card">+ Agregar tarjeta</button>
     </div>
 
-    <!-- Lista: Completado -->
-    <div class="bg-white rounded shadow w-72 flex-shrink-0 p-4">
-      <h2 class="text-lg font-bold mb-2">✅ Completado</h2>
-      <ul class="space-y-2 mb-4">
-        <li class="bg-green-200 p-2 rounded">Establecer objetivos</li>
-      </ul>
-      <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 border rounded mb-2">
-      <button class="bg-green-500 text-white px-4 py-1 rounded w-full hover:bg-green-600">Agregar</button>
+    <!-- Tablero: Hecho -->
+    <div class="board">
+      <h2 class="board-title">Hecho</h2>
+      <div class="card-list">
+        <div class="card card-green">Tarea completada 1</div>
+        <div class="card card-green">Tarea completada 2</div>
+      </div>
+      <button class="add-card">+ Agregar tarjeta</button>
     </div>
 
-    <!-- Agregar nueva lista -->
-    <div class="bg-white rounded shadow w-72 flex-shrink-0 p-4">
-      <h2 class="text-lg font-bold mb-2">Agregar otra lista</h2>
-      <input type="text" placeholder="Título de la lista..." class="w-full p-2 border rounded mb-2">
-      <button class="bg-gray-500 text-white px-4 py-1 rounded w-full hover:bg-gray-600">Crear</button>
+    <!-- Botón para nuevo tablero -->
+    <div class="add-board">
+      <span>+ Agregar tablero</span>
     </div>
   </div>
 </body>
 </html>
-
-
-

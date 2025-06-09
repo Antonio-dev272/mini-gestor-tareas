@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos personalizados */
+.title {
+  @apply text-3xl font-bold mb-6 text-center;
+}
+
+.board-container {
+  @apply flex space-x-4 overflow-x-auto;
+}
+
+.board {
+  @apply bg-white rounded-lg shadow-md p-4 min-w-[250px];
+}
+
+.board-title {
+  @apply text-lg font-semibold mb-2;
+}
+
+.card-list {
+  @apply space-y-2;
+}
+
+.card {
+  @apply bg-blue-100 p-2 rounded shadow;
+}
+
+.card-yellow {
+  @apply bg-yellow-100;
+}
+
+.card-green {
+  @apply bg-green-100;
+}
+
+.add-card {
+  @apply mt-3 text-sm text-blue-600 hover:underline;
+}
+
+.add-board {
+  @apply bg-gray-200 rounded-lg p-4 min-w-[250px] flex items-center justify-center cursor-pointer hover:bg-gray-300 text-gray-700;
+}
