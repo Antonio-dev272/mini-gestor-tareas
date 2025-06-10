@@ -1,143 +1,101 @@
-const API_URL = "http://localhost:5000";
+document.addEventListener('DOMContentLoaded', () => {
+  const addButtons = document.querySelectorAll('.add-card-btn');
 
-async function fetchBoards() {
-  const res = await fetch(`${API_URL}/boards`);
-  const boards = await res.json();
-  const boardsContainer = document.getElementById("boards");
-  boardsContainer.innerHTML = "";
+  addButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const container = button.closest('[data-list]');
+      const input = container.querySelector('input');
+      const text = input.value.trim();
+      if (!text) return;
 
-  boards.forEach((board) => {
-    const boardCard = document.createElement("div");
-    boardCard.className = "bg-white rounded-lg shadow-md p-4";
+      const card = createCard(text);
+      const list = container.querySelector('.card-list');
+      list.appendChild(card);
+      input.value = '';
+    });
+  });
 
-    const title = document.createElement("h2");
-    title.textContent = board.name;
-    title.className = "text-xl font-semibold mb-2";
+  initDragAndDrop();
 
-    boardCard.appendChild(title);
+  // 🔧 Agregar eventos a las tarjetas que ya están en el HTML
+  const existingCards = document.querySelectorAll('.card-list > div');
+  existingCards.forEach(card => {
+    addDragEvents(card);
+  });
+});
 
-    const listsContainer = document.createElement("div");
-    listsContainer.className = "space-y-2";
-    boardCard.appendChild(listsContainer);
+// Crea una tarjeta con edición y eliminación
+function createCard(text) {
+  const card = document.createElement('div');
+  card.className = 'bg-gray-700 p-3 rounded shadow cursor-pointer flex justify-between items-center group';
+  card.draggable = true;
 
-    fetchLists(board.id, listsContainer);
+  const span = document.createElement('span');
+  span.textContent = text;
+  span.className = 'flex-grow';
 
-    // Add new list input and button
-    const newListInput = document.createElement("input");
-    newListInput.placeholder = "Nueva lista";
-    newListInput.className =
-      "border border-gray-300 rounded-md p-1 w-full mb-2 focus:outline-none focus:ring-2 focus:ring-blue-400";
+  // Doble clic para editar el texto
+  span.addEventListener('dblclick', () => {
+    const newText = prompt('Editar tarjeta:', span.textContent);
+    if (newText !== null) {
+      span.textContent = newText.trim();
+    }
+  });
 
-    const newListButton = document.createElement("button");
-    newListButton.textContent = "Agregar lista";
-    newListButton.className =
-      "bg-green-500 hover:bg-green-600 text-white rounded-md px-2 py-1 text-sm";
-    newListButton.onclick = () => {
-      createList(board.id, newListInput.value, listsContainer, newListInput);
-    };
+  // Botón de eliminar
+  const deleteBtn = document.createElement('button');
+  deleteBtn.innerHTML = '<i class="ti ti-trash text-lg"></i>';
+  deleteBtn.className = 'text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity ml-2';
+  deleteBtn.title = 'Eliminar tarjeta';
+  deleteBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (confirm('¿Estás seguro de eliminar esta tarjeta?')) {
+      card.remove();
+    }
+  });
 
-    boardCard.appendChild(newListInput);
-    boardCard.appendChild(newListButton);
+  card.appendChild(span);
+  card.appendChild(deleteBtn);
 
-    boardsContainer.appendChild(boardCard);
+  addDragEvents(card);
+  return card;
+}
+
+// Eventos de arrastrar una tarjeta
+function addDragEvents(card) {
+  card.addEventListener('dragstart', e => {
+    card.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', '');
+  });
+
+  card.addEventListener('dragend', () => {
+    card.classList.remove('dragging');
   });
 }
 
-async function createBoard() {
-  const nameInput = document.getElementById("board-name");
-  const name = nameInput.value.trim();
-  if (!name) return alert("Ingresa un nombre para el tablero");
+// Configura las listas para recibir tarjetas
+function initDragAndDrop() {
+  const dropzones = document.querySelectorAll('.card-list');
 
-  await fetch(`${API_URL}/boards`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name }),
-  });
+  dropzones.forEach(zone => {
+    zone.addEventListener('dragover', e => {
+      e.preventDefault();
+      zone.classList.add('bg-gray-600');
+    });
 
-  nameInput.value = "";
-  fetchBoards();
-}
+    zone.addEventListener('dragleave', () => {
+      zone.classList.remove('bg-gray-600');
+    });
 
-async function fetchLists(boardId, container) {
-  const res = await fetch(`${API_URL}/boards/${boardId}/lists`);
-  const lists = await res.json();
-  container.innerHTML = "";
-
-  lists.forEach((list) => {
-    const listDiv = document.createElement("div");
-    listDiv.className = "bg-gray-100 rounded-md p-2";
-
-    const listTitle = document.createElement("h3");
-    listTitle.textContent = list.name;
-    listTitle.className = "font-semibold mb-1";
-
-    listDiv.appendChild(listTitle);
-
-    const tasksContainer = document.createElement("div");
-    tasksContainer.className = "space-y-1 mb-2";
-    listDiv.appendChild(tasksContainer);
-
-    fetchTasks(list.id, tasksContainer);
-
-    // Add new task input and button
-    const newTaskInput = document.createElement("input");
-    newTaskInput.placeholder = "Nueva tarea";
-    newTaskInput.className =
-      "border border-gray-300 rounded-md p-1 w-full mb-1 focus:outline-none focus:ring-2 focus:ring-green-400";
-
-    const newTaskButton = document.createElement("button");
-    newTaskButton.textContent = "Agregar tarea";
-    newTaskButton.className =
-      "bg-blue-500 hover:bg-blue-600 text-white rounded-md px-2 py-1 text-sm";
-    newTaskButton.onclick = () => {
-      createTask(list.id, newTaskInput.value, tasksContainer, newTaskInput);
-    };
-
-    listDiv.appendChild(newTaskInput);
-    listDiv.appendChild(newTaskButton);
-
-    container.appendChild(listDiv);
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      const dragging = document.querySelector('.dragging');
+      if (dragging) {
+        zone.appendChild(dragging);
+      }
+      zone.classList.remove('bg-gray-600');
+    });
   });
 }
 
-async function createList(boardId, listName, container, inputElement) {
-  if (!listName.trim()) return alert("Ingresa un nombre para la lista");
-
-  await fetch(`${API_URL}/boards/${boardId}/lists`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name: listName }),
-  });
-
-  inputElement.value = "";
-  fetchLists(boardId, container);
-}
-
-async function fetchTasks(listId, container) {
-  const res = await fetch(`${API_URL}/lists/${listId}/tasks`);
-  const tasks = await res.json();
-  container.innerHTML = "";
-
-  tasks.forEach((task) => {
-    const taskDiv = document.createElement("div");
-    taskDiv.className =
-      "bg-white rounded-md p-1 text-sm border border-gray-300 shadow-sm";
-    taskDiv.textContent = task.title;
-    container.appendChild(taskDiv);
-  });
-}
-
-async function createTask(listId, title, container, inputElement) {
-  if (!title.trim()) return alert("Ingresa un título para la tarea");
-
-  await fetch(`${API_URL}/lists/${listId}/tasks`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title }),
-  });
-
-  inputElement.value = "";
-  fetchTasks(listId, container);
-}
-
-window.onload = fetchBoards;

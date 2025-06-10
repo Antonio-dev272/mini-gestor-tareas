@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mini Trello</title>
+  <title>Task Flow</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="static/js/script.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -16,23 +17,16 @@
       }
     }
   </script>
-  <!-- Heroicons -->
   <link href="https://unpkg.com/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-900 text-white font-sans">
 
-  <!-- Navbar estilo Trello -->
+  <!-- Navbar -->
   <header class="bg-trello text-white px-6 py-3 shadow-md">
     <div class="flex items-center justify-between">
       <div class="flex items-center space-x-4">
-        <h1 class="text-xl font-bold">Mini Trello</h1>
-        <nav class="flex space-x-3 text-sm">
-          <a href="#" class="hover:underline">Tablero 1</a>
-          <a href="#" class="hover:underline">Tablero 2</a>
-          <a href="#" class="hover:underline flex items-center"><i class="ti ti-plus mr-1"></i> Crear</a>
-        </nav>
+        <h1 class="text-xl font-bold">Task Flow</h1>
       </div>
-      <img src="https://i.pravatar.cc/40?img=12" class="rounded-full w-9 h-9 border-2 border-white shadow" alt="User Avatar">
     </div>
   </header>
 
@@ -41,90 +35,65 @@
     <div class="flex space-x-4 min-w-max">
 
       <!-- Lista: Por hacer -->
-      <div class="bg-gray-100 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-gray-300">
+      <div class="bg-gray-800 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-gray-700" data-list="por-hacer">
         <h2 class="font-semibold text-lg mb-3">📋 Por hacer</h2>
-
-        <div class="space-y-2">
-          <div class="bg-white p-3 rounded shadow hover:bg-gray-50 cursor-pointer">
-            <div class="flex justify-between items-center">
-              <span>Escribir especificaciones</span>
-              <img src="https://i.pravatar.cc/30?img=5" class="rounded-full w-6 h-6 ml-2" alt="user">
-            </div>
+        <div class="space-y-2 card-list">
+          <div class="bg-gray-700 p-3 rounded shadow cursor-pointer" draggable="true">
+            <span>Escribir especificaciones</span>
           </div>
-          <div class="bg-white p-3 rounded shadow hover:bg-gray-50 cursor-pointer">
-            <div class="flex justify-between items-center">
-              <span>Diseñar interfaz</span>
-              <img src="https://i.pravatar.cc/30?img=6" class="rounded-full w-6 h-6 ml-2" alt="user">
-            </div>
+          <div class="bg-gray-700 p-3 rounded shadow cursor-pointer" draggable="true">
+            <span>Diseñar interfaz</span>
           </div>
         </div>
-
         <div class="mt-4">
-          <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 border rounded mb-2">
-          <button class="w-full bg-blue-500 text-white py-1 rounded hover:bg-blue-600 text-sm flex items-center justify-center">
+          <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded mb-2">
+          <button class="add-card-btn w-full bg-blue-500 text-white py-1 rounded hover:bg-blue-600 text-sm flex items-center justify-center">
             <i class="ti ti-plus mr-1"></i> Agregar
           </button>
         </div>
       </div>
 
       <!-- Lista: En progreso -->
-      <div class="bg-gray-100 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-gray-300">
+      <div class="bg-gray-800 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-gray-700" data-list="en-progreso">
         <h2 class="font-semibold text-lg mb-3">🚧 En progreso</h2>
-
-        <div class="space-y-2">
-          <div class="bg-white p-3 rounded shadow hover:bg-gray-50 cursor-pointer">
-            <div class="flex justify-between items-center">
-              <span>Crear prototipo</span>
-              <img src="https://i.pravatar.cc/30?img=8" class="rounded-full w-6 h-6 ml-2" alt="user">
-            </div>
+        <div class="space-y-2 card-list">
+          <div class="bg-gray-700 p-3 rounded shadow cursor-pointer" draggable="true">
+            <span>Crear prototipo</span>
           </div>
-          <div class="bg-white p-3 rounded shadow hover:bg-gray-50 cursor-pointer">
-            <div class="flex justify-between items-center">
-              <span>Reunión con el equipo</span>
-              <img src="https://i.pravatar.cc/30?img=9" class="rounded-full w-6 h-6 ml-2" alt="user">
-            </div>
+          <div class="bg-gray-700 p-3 rounded shadow cursor-pointer" draggable="true">
+            <span>Reunión con el equipo</span>
           </div>
         </div>
-
         <div class="mt-4">
-          <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 border rounded mb-2">
-          <button class="w-full bg-blue-500 text-white py-1 rounded hover:bg-blue-600 text-sm flex items-center justify-center">
+          <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded mb-2">
+          <button class="add-card-btn w-full bg-blue-500 text-white py-1 rounded hover:bg-blue-600 text-sm flex items-center justify-center">
             <i class="ti ti-plus mr-1"></i> Agregar
           </button>
         </div>
       </div>
 
       <!-- Lista: Completado -->
-      <div class="bg-gray-100 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-gray-300">
+      <div class="bg-gray-800 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-gray-700" data-list="completado">
         <h2 class="font-semibold text-lg mb-3">✅ Completado</h2>
-
-        <div class="space-y-2">
-          <div class="bg-white p-3 rounded shadow hover:bg-gray-50 cursor-pointer">
-            <div class="flex justify-between items-center">
-              <span>Establecer objetivos</span>
-              <img src="https://i.pravatar.cc/30?img=11" class="rounded-full w-6 h-6 ml-2" alt="user">
-            </div>
+        <div class="space-y-2 card-list">
+          <div class="bg-gray-700 p-3 rounded shadow cursor-pointer" draggable="true">
+            <span>Establecer objetivos</span>
           </div>
         </div>
-
         <div class="mt-4">
-          <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 border rounded mb-2">
-          <button class="w-full bg-blue-500 text-white py-1 rounded hover:bg-blue-600 text-sm flex items-center justify-center">
+          <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded mb-2">
+          <button class="add-card-btn w-full bg-blue-500 text-white py-1 rounded hover:bg-blue-600 text-sm flex items-center justify-center">
             <i class="ti ti-plus mr-1"></i> Agregar
           </button>
         </div>
       </div>
 
       <!-- Nueva lista -->
-      <div class="bg-white rounded-lg w-80 flex-shrink-0 p-4 shadow-md border-2 border-dashed border-gray-300 flex flex-col justify-center items-center text-gray-500 hover:border-blue-400 hover:text-blue-600 transition-colors">
+      <div class="bg-gray-700 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border-2 border-dashed border-gray-500 flex flex-col justify-center items-center text-gray-300 hover:border-blue-400 hover:text-blue-200 transition-colors">
         <span class="mb-2 font-semibold"><i class="ti ti-plus mr-1"></i> Agregar otra lista</span>
-        <input type="text" placeholder="Título de la lista..." class="w-full p-2 border rounded mb-2">
+        <input type="text" placeholder="Título de la lista..." class="w-full p-2 border border-gray-600 bg-gray-800 text-white rounded mb-2">
         <button class="w-full bg-green-500 text-white py-1 rounded hover:bg-green-600 text-sm">Crear</button>
       </div>
 
     </div>
   </main>
-
-</body>
-</html>
-
