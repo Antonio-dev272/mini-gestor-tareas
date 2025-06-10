@@ -1,0 +1,56 @@
+# .github/workflows/main.yml
+name: CI/CD Pipeline for Trello Clone
+
+on:
+  push:
+    branches:
+      - main # Se ejecuta en cada push a la rama 'main'
+  pull_request:
+    branches:
+      - main # Se ejecuta en cada pull request a la rama 'main'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # El sistema operativo del runner de GitHub Actions
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12' # <-- ¡IMPORTANTE! Asegúrate de que esta versión coincida con la que usas (la tuya es 3.12.1).
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Python tests
+        run: |
+          pytest
+
+      # --- Pasos para Tailwind CSS (OPCIONAL, solo si compilas Tailwind en la CI) ---
+      # Si usas Tailwind y quieres que se compile en CI (por ejemplo, para asegurarte que no haya errores
+      # en el proceso de construcción o si necesitas los archivos CSS para un despliegue), incluye estos pasos.
+      # Si solo lo usas en desarrollo y ya tienes los CSS en tu repo, puedes omitirlos.
+      - name: Set up Node.js for Tailwind
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # <-- ¡IMPORTANTE! Usa una versión LTS reciente de Node.js (ej. 18, 20).
+
+      - name: Install Tailwind CSS dependencies
+        run: npm install
+
+      - name: Build Tailwind CSS
+        run: npm run build-tailwind # Asegúrate de que este script esté definido en tu package.json.
+      # --- Fin de Pasos para Tailwind CSS ---
+
+      # --- Opcional: Análisis Estático de Código con Flake8 ---
+      # Este paso te ayuda a mantener la calidad y el estilo de tu código Python.
+      - name: Run Flake8 static analysis
+        run: |
+          pip install flake8
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics # Errores que causarán que la CI falle
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=120 --statistics # Advertencias (no falla la CI)
