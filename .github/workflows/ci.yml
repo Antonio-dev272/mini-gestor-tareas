@@ -1,31 +1,57 @@
+# .github/workflows/ci.yml  <-- Asegúrate que el nombre del archivo sea ci.yml
 name: CI para Proyecto Trello Flask
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main # Se ejecuta en cada push a la rama 'main'
   pull_request:
-    branches: [ main ]
+    branches:
+      - main # Se ejecuta en cada pull request a la rama 'main'
 
 jobs:
-  build:
+  build-and-test: # Cambié 'build' a 'build-and-test' para ser más descriptivo
     runs-on: ubuntu-latest
 
     steps:
-    - name: Clonar repositorio
-      uses: actions/checkout@v3
+      - name: Clonar repositorio
+        uses: actions/checkout@v4 # Usar la versión más reciente si es posible (@v4 es la actual)
 
-    - name: Configurar Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Configurar Python
+        uses: actions/setup-python@v5 # Usar la versión más reciente (@v5 es la actual)
+        with:
+          python-version: '3.12' # <--- ¡IMPORTANTE! Cambié a 3.12, según tu entorno.
 
-    - name: Instalar dependencias
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Instalar dependencias de Python
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Ejecutar pruebas
-      run: |
-        echo "Aquí irían tus pruebas"
-.github/workflows/ci.yml
+      - name: Ejecutar pruebas de Python
+        run: |
+          pytest # <--- ¡IMPORTANTE! Reemplaza el echo con el comando real de pytest
+
+      # --- Pasos para Tailwind CSS (OPCIONAL) ---
+      # Si tu aplicación Flask usa Tailwind y quieres que se compile en la CI,
+      # o si quieres que los archivos CSS se generen para un despliegue futuro, incluye estos pasos.
+      # Si Tailwind solo lo usas en desarrollo y ya tienes los archivos CSS en el repo, puedes omitirlos.
+      - name: Configurar Node.js para Tailwind
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # <--- ¡IMPORTANTE! Usa una versión LTS reciente de Node.js (ej. 18, 20).
+
+      - name: Instalar dependencias de Tailwind CSS
+        run: npm install
+
+      - name: Construir Tailwind CSS
+        run: npm run build-tailwind # Asegúrate de que este script esté definido en tu package.json.
+      # --- Fin de Pasos para Tailwind CSS ---
+
+      # --- Opcional: Análisis Estático de Código con Flake8 ---
+      # Este paso te ayuda a mantener la calidad y el estilo de tu código Python.
+      - name: Ejecutar análisis estático con Flake8
+        run: |
+          pip install flake8
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics # Errores críticos (la CI fallará)
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=120 --statistics # Advertencias (no falla la CI)
 
