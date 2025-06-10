@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task Flow</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="static/js/script.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            trello: '#026AA7',
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://unpkg.com/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white font-sans">
+
+  <!-- Navbar -->
+  <header class="bg-trello text-white px-6 py-3 shadow-md">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-4">
+        <h1 class="text-xl font-bold">Task Flow</h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- Tablero -->
+  <main class="p-6 overflow-x-auto">
+    <div class="flex space-x-4 min-w-max">
+
+      <!-- Lista: Por hacer -->
+      <div class="bg-gray-800 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-gray-700" data-list="por-hacer">
+        <h2 class="font-semibold text-lg mb-3">📋 Por hacer</h2>
+        <div class="space-y-2 card-list">
+          <div class="bg-gray-700 p-3 rounded shadow cursor-pointer" draggable="true">
+            <span>Escribir especificaciones</span>
+          </div>
+          <div class="bg-gray-700 p-3 rounded shadow cursor-pointer" draggable="true">
+            <span>Diseñar interfaz</span>
+          </div>
+        </div>
+        <div class="mt-4">
+          <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded mb-2">
+          <button class="add-card-btn w-full bg-blue-500 text-white py-1 rounded hover:bg-blue-600 text-sm flex items-center justify-center">
+            <i class="ti ti-plus mr-1"></i> Agregar
+          </button>
+        </div>
+      </div>
+
+      <!-- Lista: En progreso -->
+      <div class="bg-gray-800 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-gray-700" data-list="en-progreso">
+        <h2 class="font-semibold text-lg mb-3">🚧 En progreso</h2>
+        <div class="space-y-2 card-list">
+          <div class="bg-gray-700 p-3 rounded shadow cursor-pointer" draggable="true">
+            <span>Crear prototipo</span>
+          </div>
+          <div class="bg-gray-700 p-3 rounded shadow cursor-pointer" draggable="true">
+            <span>Reunión con el equipo</span>
+          </div>
+        </div>
+        <div class="mt-4">
+          <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded mb-2">
+          <button class="add-card-btn w-full bg-blue-500 text-white py-1 rounded hover:bg-blue-600 text-sm flex items-center justify-center">
+            <i class="ti ti-plus mr-1"></i> Agregar
+          </button>
+        </div>
+      </div>
+
+      <!-- Lista: Completado -->
+      <div class="bg-gray-800 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border border-gray-700" data-list="completado">
+        <h2 class="font-semibold text-lg mb-3">✅ Completado</h2>
+        <div class="space-y-2 card-list">
+          <div class="bg-gray-700 p-3 rounded shadow cursor-pointer" draggable="true">
+            <span>Establecer objetivos</span>
+          </div>
+        </div>
+        <div class="mt-4">
+          <input type="text" placeholder="Nueva tarjeta..." class="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded mb-2">
+          <button class="add-card-btn w-full bg-blue-500 text-white py-1 rounded hover:bg-blue-600 text-sm flex items-center justify-center">
+            <i class="ti ti-plus mr-1"></i> Agregar
+          </button>
+        </div>
+      </div>
+
+      <!-- Nueva lista -->
+      <div class="bg-gray-700 rounded-lg w-80 flex-shrink-0 p-4 shadow-md border-2 border-dashed border-gray-500 flex flex-col justify-center items-center text-gray-300 hover:border-blue-400 hover:text-blue-200 transition-colors">
+        <span class="mb-2 font-semibold"><i class="ti ti-plus mr-1"></i> Agregar otra lista</span>
+        <input type="text" placeholder="Título de la lista..." class="w-full p-2 border border-gray-600 bg-gray-800 text-white rounded mb-2">
+        <button class="w-full bg-green-500 text-white py-1 rounded hover:bg-green-600 text-sm">Crear</button>
+      </div>
+
+    </div>
+  </main>
