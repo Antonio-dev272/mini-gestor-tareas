@@ -1,5 +1,9 @@
 flask
 flask_sqlalchemy
 flask_cors
+<<<<<<< HEAD
 pytestnano requirements.txt
 pytest
+=======
+pytestnano requirements.txt
+>>>>>>> 30338b4efc012c037c6d93fed5ab9beb1b8e39bb

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # tests/test_app.py
 import pytest
 
@@ -25,3 +26,11 @@ def test_task_creation_page(client):
    
     assert b Crear Nueva Tarea in response.data
 
+=======
+from app import app  # Asegúrate que app.py tiene "app = Flask(__name__)"
+
+def test_home_route():
+    tester = app.test_client()
+    response = tester.get('/')
+    assert response.status_code == 200
+>>>>>>> 30338b4efc012c037c6d93fed5ab9beb1b8e39bb
