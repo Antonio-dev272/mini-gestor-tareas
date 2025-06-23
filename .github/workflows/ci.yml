@@ -33,6 +33,7 @@ jobs:
       - name: Ejecutar pruebas
         run: |
           cd backend
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
           pytest tests
 
       - name: Construir imagen Docker
