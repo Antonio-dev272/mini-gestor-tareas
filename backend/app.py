@@ -8,6 +8,11 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 CORS(app)
 
+# Crear las tablas dentro del contexto de la app
+with app.app_context():
+    db.create_all()
+
+# Modelos
 class Board(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
@@ -24,10 +29,7 @@ class Task(db.Model):
     title = db.Column(db.String(120), nullable=False)
     list_id = db.Column(db.Integer, db.ForeignKey("list.id"), nullable=False)
 
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
+# Rutas
 @app.route("/boards", methods=["GET", "POST"])
 def handle_boards():
     if request.method == "POST":
@@ -63,4 +65,3 @@ def handle_tasks(list_id):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-
