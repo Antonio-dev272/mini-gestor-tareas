@@ -12,7 +12,20 @@ CORS(app)
 with app.app_context():
     db.create_all()
 
-# Modelos
+# Crear un board y listas por defecto si no existen
+with app.app_context():
+    if not Board.query.first():
+        default_board = Board(name="Default")
+        db.session.add(default_board)
+        db.session.commit()
+
+        # Crear listas por defecto
+        for nombre in ["Por hacer", "En progreso", "Completado"]:
+            nueva_lista = List(name=nombre, board_id=default_board.id)
+            db.session.add(nueva_lista)
+        db.session.commit()
+
+# --- Modelos ---
 class Board(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
@@ -21,7 +34,7 @@ class Board(db.Model):
 class List(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
-    board_id = db.Column(db.Integer, db.ForeignKey("board.id"), nullable=False)
+    board_id = db.Column(db.Integer, db.ForeignKey("board.id"), nullable=True)
     tasks = db.relationship("Task", backref="list", cascade="all, delete")
 
 class Task(db.Model):
@@ -29,9 +42,8 @@ class Task(db.Model):
     title = db.Column(db.String(120), nullable=False)
     list_id = db.Column(db.Integer, db.ForeignKey("list.id"), nullable=False)
 
-# Rutas
+# --- Rutas API tradicionales ---
 
-# --- Boards ---
 @app.route("/boards", methods=["GET", "POST"])
 def handle_boards():
     if request.method == "POST":
@@ -56,7 +68,6 @@ def modify_board(board_id):
         db.session.commit()
         return jsonify({"id": board.id, "name": board.name})
 
-# --- Lists ---
 @app.route("/boards/<int:board_id>/lists", methods=["GET", "POST"])
 def handle_lists(board_id):
     if request.method == "POST":
@@ -81,7 +92,6 @@ def modify_list(list_id):
         db.session.commit()
         return jsonify({"id": list_obj.id, "name": list_obj.name})
 
-# --- Tasks ---
 @app.route("/lists/<int:list_id>/tasks", methods=["GET", "POST"])
 def handle_tasks(list_id):
     if request.method == "POST":
@@ -114,6 +124,75 @@ def modify_task(task_id):
             return jsonify({"id": task.id, "title": task.title, "list_id": task.list_id})
         return jsonify({"error": "list_id es requerido"}), 400
 
+# --- NUEVAS RUTAS para el frontend en /api/cards ---
+
+@app.route("/api/cards", methods=["GET", "POST"])
+def api_cards():
+    if request.method == "GET":
+        tasks = Task.query.all()
+        return jsonify([
+            {
+                "id": task.id,
+                "text": task.title,
+                "list": task.list.name if task.list else ""
+            } for task in tasks
+        ])
+
+    elif request.method == "POST":
+        data = request.get_json()
+        title = data.get("text")
+        list_name = data.get("list")
+
+        if not title or not list_name:
+            return jsonify({"error": "Faltan campos"}), 400
+
+        lista = List.query.filter_by(name=list_name).first()
+        if not lista:
+            return jsonify({"error": "La lista no existe"}), 404
+
+        task = Task(title=title, list_id=lista.id)
+        db.session.add(task)
+        db.session.commit()
+
+        return jsonify({
+            "id": task.id,
+            "text": task.title,
+            "list": list_name
+        }), 201
+
+@app.route("/api/cards/<int:card_id>", methods=["PUT", "DELETE"])
+def modificar_tarjeta(card_id):
+    task = Task.query.get_or_404(card_id)
+
+    if request.method == "PUT":
+        data = request.get_json()
+        task.title = data.get("text", task.title)
+
+        nueva_lista = List.query.filter_by(name=data.get("list")).first()
+        if nueva_lista:
+            task.list_id = nueva_lista.id
+
+        db.session.commit()
+        return jsonify({
+            "id": task.id,
+            "text": task.title,
+            "list": nueva_lista.name if nueva_lista else ""
+        })
+
+    elif request.method == "DELETE":
+        db.session.delete(task)
+        db.session.commit()
+        return jsonify({"message": "Tarea eliminada"})
+
+# --- Pruebas ---
+@app.route("/")
+def home():
+    return "Mini Gestor de Tareas"
+
+@app.route("/nueva-tarea")
+def nueva_tarea():
+    return "Crear Nueva Tarea"
+
 # --- Main ---
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5050)
